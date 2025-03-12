@@ -7,7 +7,7 @@ function createPlayer(x, y, color) {
 
     player.update = () => {
         boosterRocketMovement();
-        lanceMovement()
+        // lanceMovement()
     };
 }
 
