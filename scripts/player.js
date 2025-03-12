@@ -7,7 +7,7 @@ function createPlayer(x, y, color) {
 
     player.update = () => {
         boosterRocketMovement();
-        // lanceMovement()
+        lanceMovement()
     };
 }
 
@@ -28,10 +28,9 @@ function boosterRocketMovement() {
     }
 }
 
-// function lanceMovement() {
-//     console.log(dist(player.x, player.y, mouse.x, mouse.y))
-//     if (mouse.presses) {
-        
-//         lanceJoint = new DistanceJoint(player, )
-//     }
-// }
+function lanceMovement() {
+    // console.log(dist(player.x, player.y, mouse.x, mouse.y))
+    // if (mouse.presses) {
+    //     lanceJoint = new DistanceJoint(player, )
+    // }
+}
