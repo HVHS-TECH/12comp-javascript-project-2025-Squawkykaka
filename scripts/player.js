@@ -23,6 +23,13 @@ function boosterRocketMovement() {
         }
     }
 
+    if (kb.pressing('s')) {
+        player.vel.y += 0.2;
+    }
+    if (kb.pressing('w')) {
+        player.vel.y -= 0.2;
+    }
+
     if (boosterCooldown > 0) {
         boosterCooldown--;
     }
