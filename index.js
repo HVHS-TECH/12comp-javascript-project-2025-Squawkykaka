@@ -6,7 +6,7 @@ function setup() {
 
     asteroidGroup = new Group()
 
-    camera.zoom = 0.2
+    camera.zoom = 0.7
 
     createPlayer(500, 500, 'purple');
     createAsteroid(500, 500)
