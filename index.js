@@ -1,22 +1,30 @@
-const debugMode = true
-let asteroidGroup;
+gameState = 0
+gameStateSetup = false
 
 function setup() {
-    new Canvas(windowWidth, windowHeight); // Correct for p5play
 
-    asteroidGroup = new Group()
-
-    camera.zoom = 0.7
-
-    createPlayer(500, 500, 'purple');
-    createAsteroid(500, 500)
 }
 
 function draw() {
-    background(220);
-    debugCode()
+    background(220)
+    gameManager()
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+}
+
+function gameManager() {
+    switch(gameState) {
+        case 0:
+            mainMenu()
+            break;
+    }
+}
+
+function mainMenu() {
+    if(gameStateSetup === false) {
+        spawnButton("Start Game", windowWidth/2, windowHeight/2)
+        gameStateSetup = true
+    }
 }
