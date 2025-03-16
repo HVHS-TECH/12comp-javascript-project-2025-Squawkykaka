@@ -14,11 +14,11 @@ function createPlayer(x, y, color) {
 function boosterRocketMovement() {
     if (boosterCooldown === 0) {
         if (kb.pressing('a')) {
-            player.vel.x -= 2;
+            player.rotationSpeed -= 2;
             boosterCooldown = boosterCooldownMax;
         }
         if (kb.pressing('d')) {
-            player.vel.x += 2;
+            player.rotationSpeed += 2;
             boosterCooldown = boosterCooldownMax;
         }
     }
@@ -33,11 +33,10 @@ function boosterRocketMovement() {
     if (boosterCooldown > 0) {
         boosterCooldown--;
     }
+
+    player.rotationSpeed = player.rotationSpeed / 1.01
 }
 
-function lanceMovement() {
-    // console.log(dist(player.x, player.y, mouse.x, mouse.y))
-    // if (mouse.presses) {
-    //     lanceJoint = new DistanceJoint(player, )
-    // }
+function drawTargetingLine() {
+    
 }
