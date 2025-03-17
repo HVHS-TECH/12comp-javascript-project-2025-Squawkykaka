@@ -3,9 +3,8 @@ function spawnButton(text, x, y, func) {
     button.text = text
 
     buttonGroup.add(button)
-    
+
     button.update = () => {
         if(button.mouse.pressing()) {func();}
-        else button.color = "red"
     }
 }
