@@ -5,7 +5,7 @@ let berryGroup;
 
 let berryImage;
 
-function preLoad() {
+function preload() {
     berryImage = loadImage('./assets/berry.jpg')
 }
 
@@ -70,12 +70,13 @@ function gameScreen() {
 
 function setupMainMenu() {
     gameState=0
-    spawnButton("Instructions", windowWidth/2-250, windowHeight/2, () => {
+    console.log("pre instructions")
+    spawnButton("Instructions", windowWidth/2-250, windowHeight/2, (button) => {
         console.log("instuctions")
         changeGameState(setupInstructionsScreen)
     })
-
-    spawnButton("Play Game", windowWidth/2+250, windowHeight/2, () => {
+    console.log("pre play game")
+    spawnButton("Play Game", windowWidth/2+250, windowHeight/2, (button) => {
         console.log("playgame")
         changeGameState(setupGameScreen)
     })
