@@ -7,6 +7,7 @@ let berryImage;
 
 function preload() {
     berryImage = loadImage('./assets/berry.jpg')
+    bearImage = loadImage('./assets/bear.jpg')  
 }
 
 function setup() {
@@ -18,7 +19,7 @@ function setup() {
 
     buttonGroup.overlaps(allSprites)
 
-    setupMainMenu()
+    setupGameScreen()
 }
 
 function draw() {
@@ -44,6 +45,7 @@ function gameManager() {
 }
 
 function changeGameState(setupFunction) {
+    world.gravity.y = 10;
     textAlign(LEFT)
     textSize(20)
     allSprites.remove()
@@ -99,4 +101,8 @@ function setupGameScreen() {
         console.log("hi")
         changeGameState(setupMainMenu)
     })
+    let floor = new Sprite(windowWidth/2, windowHeight-20, windowWidth*2, 1, "K")
+
+    let bear = new Sprite(windowWidth-200, windowHeight-200, 200)
+    bear.image = bearImage
 }
