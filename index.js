@@ -1,6 +1,7 @@
 gameState = 0
 
 let buttonGroup;
+let berryGroup;
 
 let berryImage;
 
@@ -13,6 +14,8 @@ function setup() {
     world.gravity.y = 10;
 
     buttonGroup = new Group()
+    berryGroup = new Group()
+
     buttonGroup.overlaps(allSprites)
 
     setupMainMenu()
@@ -34,11 +37,15 @@ function gameManager() {
         case 1:
             instructionsScreen()
             break;
+        case 2:
+            gameScreen()
+            break;
     }
 }
 
 function changeGameState(setupFunction) {
     textAlign(LEFT)
+    textSize(20)
     allSprites.remove()
     setupFunction()
 }
@@ -51,21 +58,42 @@ function mainMenu() {
 function instructionsScreen() {
     background(120)
     spawnBerry(random(windowWidth), -20)
+
+    berryGroup.draw()
     text("Use WASD keys to move and F for ability, \nif you get hit by a bear you get hurt, so avoid bears\nCollect berries for score and find cool upgrades", windowWidth/2, windowHeight/2)
     // stuff + thingd
+}
+
+function gameScreen() {
+    background(120)
 }
 
 function setupMainMenu() {
     gameState=0
     spawnButton("Instructions", windowWidth/2-250, windowHeight/2, () => {
-        console.log("hi")
+        console.log("instuctions")
         changeGameState(setupInstructionsScreen)
+    })
+
+    spawnButton("Play Game", windowWidth/2+250, windowHeight/2, () => {
+        console.log("playgame")
+        changeGameState(setupGameScreen)
     })
 }
 
 function setupInstructionsScreen() {
     gameState = 1
     textAlign(CENTER)
+
+    spawnButton("Go Home", 100, 50, () => {
+        console.log("hi")
+        changeGameState(setupMainMenu)
+    })
+}
+
+function setupGameScreen() {
+    gameState = 2
+
     spawnButton("Go Home", 100, 50, () => {
         console.log("hi")
         changeGameState(setupMainMenu)
