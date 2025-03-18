@@ -3,4 +3,6 @@ function spawnBerry(x, y) {
     berry.life = 60*20
     berry.image = './assets/berry.jpg'
     berry.image.scale = 0.2
+    
+    berryGroup.add(berry)
 }
