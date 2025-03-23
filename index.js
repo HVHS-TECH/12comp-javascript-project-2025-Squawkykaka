@@ -2,12 +2,15 @@ gameState = 0
 
 let buttonGroup;
 let berryGroup;
+let bearAttack = false;
 
 let berryImage;
 
+let bear;
+
 function preload() {
     berryImage = loadImage('./assets/berry.jpg')
-    bearImage = loadImage('./assets/bear.jpg')  
+    bearImage = loadImage('./assets/bear.jpg')
 }
 
 function setup() {
@@ -68,6 +71,19 @@ function instructionsScreen() {
 
 function gameScreen() {
     background(120)
+
+    if(random(1, 500) <= 3) {
+        createBear()
+        bearAttack = true;
+    }
+
+    if(bearAttack) {
+        bear.visible = true;
+        bear.vel.x = -10;
+        if (bear.x <= -200) {
+            bear.remove()
+        }
+    }
 }
 
 function setupMainMenu() {
@@ -103,6 +119,12 @@ function setupGameScreen() {
     })
     let floor = new Sprite(windowWidth/2, windowHeight-20, windowWidth*2, 1, "K")
 
-    let bear = new Sprite(windowWidth-200, windowHeight-200, 200)
+    player = new Sprite(windowWidth/2, windowHeight-50, 50, 50)
+}
+
+function createBear() {
+    bear = new Sprite(windowWidth-200, windowHeight-200, 200)
     bear.image = bearImage
+    bear.visible = false;
+    return bear;
 }
