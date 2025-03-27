@@ -57,7 +57,7 @@ function changeGameState(setupFunction) {
 }
 
 function mainMenu() {
-    background(220)
+    background(219)
     // Do main menu shtuff
 }
 
