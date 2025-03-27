@@ -71,7 +71,7 @@ function instructionsScreen() {
 }
 
 function gameScreen() {
-    background(120)
+    background(119)
 
     // if(random(1, 500) <= 3) {
     //     createBear()
