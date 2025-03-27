@@ -6,7 +6,8 @@ let bearAttack = false;
 
 let berryImage;
 
-let bear;
+let bear, floor;
+let timeHoldingSpace = 0;
 
 function preload() {
     berryImage = loadImage('./assets/berry.jpg')
@@ -72,10 +73,10 @@ function instructionsScreen() {
 function gameScreen() {
     background(120)
 
-    if(random(1, 500) <= 3) {
-        createBear()
-        bearAttack = true;
-    }
+    // if(random(1, 500) <= 3) {
+    //     createBear()
+    //     bearAttack = true;
+    // }
 
     if(bearAttack) {
         bear.visible = true;
@@ -83,6 +84,18 @@ function gameScreen() {
         if (bear.x <= -200) {
             bear.remove()
         }
+    }
+    playerMovement()
+}
+
+function playerMovement() {
+    if(kb.pressing("w")) {
+        timeHoldingSpace += 1
+        text(timeHoldingSpace, 400, 400)
+    } 
+    if (kb.released('w')) {
+		player.bearing = 90;
+		player.applyForce(timeHoldingSpace);
     }
 }
 
@@ -117,14 +130,15 @@ function setupGameScreen() {
         console.log("hi")
         changeGameState(setupMainMenu)
     })
-    let floor = new Sprite(windowWidth/2, windowHeight-20, windowWidth*2, 1, "K")
+    floor = new Sprite(windowWidth/2, windowHeight-20, windowWidth*2, 1, "K")
 
     player = new Sprite(windowWidth/2, windowHeight-50, 50, 50)
 }
 
 function createBear() {
-    bear = new Sprite(windowWidth-200, windowHeight-200, 200)
+    bear = new Sprite(windowWidth-200, windowHeight-200, 120)
     bear.image = bearImage
+    bear.image.scale = 0.4
     bear.visible = false;
     return bear;
 }
