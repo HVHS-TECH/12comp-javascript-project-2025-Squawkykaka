@@ -90,12 +90,15 @@ function gameScreen() {
 
 function playerMovement() {
     if(kb.pressing("w")) {
+        if(timeHoldingSpace >= 150) {
+            timeHoldingSpace = 150
+        }
         timeHoldingSpace += 1
         text(timeHoldingSpace, 400, 400)
     } 
-    if (kb.released('w')) {
-		player.bearing = 90;
-		player.applyForce(timeHoldingSpace);
+    if (kb.released('w') && player.colliding(floor)) {
+        player.vel.y = -timeHoldingSpace / 7
+        timeHoldingSpace = 0
     }
 }
 
