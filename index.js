@@ -57,8 +57,8 @@ function changeGameState(setupFunction) {
 }
 
 function mainMenu() {
-    background(219)
-    // Do main menu shtuff
+  background(219);
+  // Do main menu shtuff
 }
 
 function instructionsScreen() {
@@ -75,7 +75,7 @@ function instructionsScreen() {
 }
 
 function gameScreen() {
-    background(119)
+  background(119);
 
   if (random(1, 500) <= 3) {
     createBear();
@@ -96,17 +96,17 @@ function gameScreen() {
 }
 
 function playerMovement() {
-    if(kb.pressing("w")) {
-        if(timeHoldingSpace >= 150) {
-            timeHoldingSpace = 150
-        }
-        timeHoldingSpace += 1
-        text(timeHoldingSpace, 400, 400)
-    } 
-    if (kb.released('w') && player.colliding(floor)) {
-        player.vel.y = -timeHoldingSpace / 7
-        timeHoldingSpace = 0
+  if (kb.pressing("w")) {
+    if (timeHoldingSpace >= 150) {
+      timeHoldingSpace = 150;
     }
+    timeHoldingSpace += 1;
+    text(timeHoldingSpace, 400, 400);
+  }
+  if (kb.released("w") && player.colliding(floor)) {
+    player.vel.y = -timeHoldingSpace / 7;
+    timeHoldingSpace = 0;
+  }
 }
 
 function setupMainMenu() {
