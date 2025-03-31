@@ -4,20 +4,21 @@
 // .vscode is not needed
 
 {
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
-    "customizations": {
-        "codespaces": {
-            "openFiles": [ // Which file(s) to open by default
-            "index.html"
-            ]
-        },
-        "vscode": {
-            "extensions": [
-                "ritwickdey.LiveServer",  //  Install LiveServer to view pages
-            ],
-            "settings": {
-                "liveServer.settings.donotShowInfoMsg": true,
-            }
-        }
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        // Which file(s) to open by default
+        "index.html"
+      ]
+    },
+    "vscode": {
+      "extensions": [
+        "ritwickdey.LiveServer" //  Install LiveServer to view pages
+      ],
+      "settings": {
+        "liveServer.settings.donotShowInfoMsg": true
+      }
     }
+  }
 }
