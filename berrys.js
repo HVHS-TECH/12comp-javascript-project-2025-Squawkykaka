@@ -1,4 +1,4 @@
-function spawnBerry(x, y, xVel) {
+function spawnBerry(x, y, xVel, doScoring) {
 	berry = new Sprite(x, y, 20, 20);
 	berry.life = 60 * 5;
 	berry.vel.x = xVel;
@@ -7,10 +7,6 @@ function spawnBerry(x, y, xVel) {
 
 	berry.update = () => {
 		berry.vel.x = xVel;
-		if (berry.collides(player)) {
-			score++;
-			berry.remove();
-		}
 	};
 
 	berryGroup.add(berry);
