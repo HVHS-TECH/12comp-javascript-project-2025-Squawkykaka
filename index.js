@@ -11,11 +11,12 @@ let lives = 3;
 let bear, floor;
 let timeHoldingSpace = 0;
 
+//  p5.js functions
 function preload() {
 	berryImage = loadImage('./assets/berry.jpg');
 	bearImage = loadImage('./assets/bear.jpg');
+	bunnyImage = loadImage('./assets/bunny.jpg');
 }
-
 function setup() {
 	const CANVAS = new Canvas(windowWidth, windowHeight);
 	world.gravity.y = 10;
@@ -27,19 +28,18 @@ function setup() {
 
 	setupGameScreen();
 }
-
 function draw() {
 	gameManager();
 }
-
 function windowResized() {
 	resizeCanvas(windowWidth, windowHeight);
 }
 
+// utility functions
 function gameManager() {
 	switch (gameState) {
 		case 0:
-			mainMenu();
+			mainMenuScreen();
 			break;
 		case 1:
 			instructionsScreen();
@@ -55,7 +55,6 @@ function gameManager() {
 			break;
 	}
 }
-
 function changeGameState(setupFunction) {
 	world.gravity.y = 10;
 	lives = 3
@@ -65,8 +64,26 @@ function changeGameState(setupFunction) {
 	allSprites.remove();
 	setupFunction();
 }
+function playerMovement() {
+	/* make the player charge up a jumptimer 
+	value then when its released touching the 
+	floor add it to the velocity */
+	
+	if (kb.pressing('space')) {
+		if (timeHoldingSpace >= 150) {
+			timeHoldingSpace = 150;
+		}
+		timeHoldingSpace += 1;
+		text(timeHoldingSpace, 400, 400);
+	}
+	if (kb.released('space') && player.colliding(floor)) {
+		player.vel.y = -timeHoldingSpace / 7;
+		timeHoldingSpace = 0;
+	}
+}
 
-function mainMenu() {
+// Scene manager scripts
+function mainMenuScreen() {
 	background(219);
 	// Do main menu shtuff
 }
@@ -127,22 +144,6 @@ function gameScreen() {
 	text(`Score: ${score}/${scoreGoal}\nLives: ${lives}`, 200, 45);
 	pop();
 }
-
-function setupWinScreen() {
-	textAlign(CENTER);
-
-	gameState = 3;
-	console.log('pre play game');
-	spawnButton(
-		'Restart Game',
-		windowWidth / 2,
-		windowHeight / 2 + 100,
-		(button) => {
-			score = 0
-			changeGameState(setupGameScreen);
-		}
-	);
-}
 function winScreen() {
 	background(0, 255, 0);
 
@@ -169,6 +170,8 @@ function loseScreen() {
 	text(`Score: ${score}`, windowWidth / 2, windowHeight / 2 - 50);
 	pop();
 }
+
+// Scene setup scripts
 function setupLoseScreen() {
 	textAlign(CENTER);
 
@@ -182,23 +185,6 @@ function setupLoseScreen() {
 			changeGameState(setupGameScreen);
 		}
 	);
-}
-function playerMovement() {
-	/* make the player charge up a jumptimer 
-	value then when its released touching the 
-	floor add it to the velocity */
-
-	if (kb.pressing('space')) {
-		if (timeHoldingSpace >= 150) {
-			timeHoldingSpace = 150;
-		}
-		timeHoldingSpace += 1;
-		text(timeHoldingSpace, 400, 400);
-	}
-	if (kb.released('space') && player.colliding(floor)) {
-		player.vel.y = -timeHoldingSpace / 7;
-		timeHoldingSpace = 0;
-	}
 }
 function setupMainMenu() {
 	gameState = 0;
@@ -223,7 +209,6 @@ function setupMainMenu() {
 		}
 	);
 }
-
 function setupInstructionsScreen() {
 	gameState = 1;
 	textAlign(CENTER);
@@ -242,7 +227,6 @@ function setupInstructionsScreen() {
 		bear.image.scale = 0.4;
 	}
 }
-
 function setupGameScreen() {
 	gameState = 2;
 	spawnPlayer(windowWidth/2, windowHeight/2);
@@ -254,25 +238,18 @@ function setupGameScreen() {
 
 	spawnFloor();
 }
+function setupWinScreen() {
+	textAlign(CENTER);
 
-function spawnBear() {
-	bear = new Sprite(windowWidth - 200, windowHeight - 200, 120);
-	bear.image = bearImage;
-	bear.image.scale = 0.4;
-	bear.visible = false;
-}
-
-function spawnPlayer(x, y) {
-	player = new Sprite(x, y, 40, 40);
-	player.bounciness = 0;
-}
-function spawnFloor() {
-	floor = new Sprite(
+	gameState = 3;
+	console.log('pre play game');
+	spawnButton(
+		'Restart Game',
 		windowWidth / 2,
-		windowHeight - 20,
-		windowWidth * 2,
-		1,
-		'K'
+		windowHeight / 2 + 100,
+		(button) => {
+			score = 0
+			changeGameState(setupGameScreen);
+		}
 	);
-	floor.bounciness = 0;
 }

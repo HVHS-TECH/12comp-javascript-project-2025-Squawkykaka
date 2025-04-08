@@ -3,8 +3,10 @@
 
 ---
 Things to do:
-- [ ] make scoring system & save high score 
+- [x] make scoring system 
+- [ ] save high score to database 
 - [x] make it so when you fall off screen you die
 - [x] fix berry collider
 - [ ] make background more interesting
 - [ ] change game to use 15 second timer and winning shows you the score over that 15 seconds
+- [ ] make game look prettier, eg add textures to the player
