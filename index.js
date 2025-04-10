@@ -1,32 +1,31 @@
-let buttonGroup;
-let berryGroup;
+//  modifyable vartiables
 let bearAttack = false;
-
-let berryImage;
-
-let score = 0;
-let scoreGoal = 5;
+let scoreGoal = 15;
 let lives = 3;
+let gravity = 20;
 
-let bear, floor;
+// dont change these
+let bear, floor, buttonGroup, berryGroup;
+let score = 0;
 let timeHoldingSpace = 0;
 
 //  p5.js functions
 function preload() {
-	berryImage = loadImage('./assets/berry.jpg');
-	bearImage = loadImage('./assets/bear.jpg');
-	bunnyImage = loadImage('./assets/bunny.jpg');
+	berryImage = loadImage("./assets/berry.jpg");
+	bearImage = loadImage("./assets/bear.jpg");
+	bunnyImage = loadImage("./assets/bunny.jpg");
+	backgroundImage = loadImage("./assets/background.jpg");
 }
 function setup() {
 	const CANVAS = new Canvas(windowWidth, windowHeight);
-	world.gravity.y = 10;
+	world.gravity.y = gravity;
 
 	buttonGroup = new Group();
 	berryGroup = new Group();
 
 	buttonGroup.overlaps(allSprites);
 
-	setupGameScreen();
+	setupMainMenu();
 }
 function draw() {
 	gameManager();
@@ -55,9 +54,15 @@ function gameManager() {
 			break;
 	}
 }
+/**
+ * This fuction is the function used to switch game states,
+ * you pass in a setup function which in the setup function
+ * changes the gamestate variable and runs the setup for the scene
+ * @param {Function} setupFunction Pass in the setup fucntion to create buttons, etc
+ */
 function changeGameState(setupFunction) {
 	world.gravity.y = 10;
-	lives = 3
+	lives = 3;
 
 	textAlign(LEFT);
 	textSize(20);
@@ -68,16 +73,22 @@ function playerMovement() {
 	/* make the player charge up a jumptimer 
 	value then when its released touching the 
 	floor add it to the velocity */
-	
-	if (kb.pressing('space')) {
-		if (timeHoldingSpace >= 150) {
-			timeHoldingSpace = 150;
+	maxTimeHoldingSpace = 15; // max time to hold space
+
+	if (kb.pressing("space")) {
+		if (timeHoldingSpace >= maxTimeHoldingSpace) {
+			timeHoldingSpace = maxTimeHoldingSpace;
 		}
-		timeHoldingSpace += 1;
+		// the rate of charge
+		timeHoldingSpace += 0.5;
 		text(timeHoldingSpace, 400, 400);
 	}
-	if (kb.released('space') && player.colliding(floor)) {
-		player.vel.y = -timeHoldingSpace / 7;
+	if (kb.released("space")) {
+		if (player.colliding(floor)) {
+			// the actual amount added to the velocity
+			player.vel.y = -timeHoldingSpace;
+		}
+
 		timeHoldingSpace = 0;
 	}
 }
@@ -92,13 +103,14 @@ function instructionsScreen() {
 	spawnBerry(random(windowWidth), -20, 0, false);
 
 	text(
-		'Hold space to chanrge jump and tap F for ability, \nif you get hit by a bear you get hurt, so avoid bears\nCollect berries for score and find cool upgrades',
+		"Hold space to charge jump, \nif you get hit by a bear you get hurt\n and you have 3 lives only, so avoid bears\nCollect berries to increase your score. \nYou have 15 seconds to collect as many berries as you can",
 		windowWidth / 2,
 		windowHeight / 2
 	);
 }
 function gameScreen() {
-	background(119);
+	// background(backgroundImage);
+	background(220);
 
 	if (random(1, 500) <= 3) {
 		spawnBear();
@@ -118,7 +130,7 @@ function gameScreen() {
 	playerMovement();
 
 	// berry scoring
-	berryGroup.forEach(berry => {
+	berryGroup.forEach((berry) => {
 		if (berry.collides(player)) {
 			berry.remove();
 			score += 1;
@@ -130,16 +142,16 @@ function gameScreen() {
 			changeGameState(setupLoseScreen);
 		} else {
 			lives -= 1;
-			player.remove()
-			spawnPlayer(windowWidth/2, windowHeight/2);
+			player.remove();
+			spawnPlayer(windowWidth / 2, windowHeight / 2);
 		}
 	}
 
-	if(score >= scoreGoal) {
+	if (score >= scoreGoal) {
 		changeGameState(setupWinScreen);
 	}
 
-	push()
+	push();
 	textSize(20);
 	text(`Score: ${score}/${scoreGoal}\nLives: ${lives}`, 200, 45);
 	pop();
@@ -149,7 +161,7 @@ function winScreen() {
 
 	push();
 	textSize(75);
-	text(`YOU WON`, windowWidth / 2, windowHeight / 2 - 100)
+	text(`YOU WON`, windowWidth / 2, windowHeight / 2 - 100);
 	pop();
 
 	push();
@@ -162,7 +174,7 @@ function loseScreen() {
 
 	push();
 	textSize(75);
-	text(`YOU DIED`, windowWidth / 2, windowHeight / 2 - 100)
+	text(`YOU DIED`, windowWidth / 2, windowHeight / 2 - 100);
 	pop();
 
 	push();
@@ -177,34 +189,34 @@ function setupLoseScreen() {
 
 	gameState = 4;
 	spawnButton(
-		'Restart Game',
+		"Restart Game",
 		windowWidth / 2,
 		windowHeight / 2 + 100,
 		(button) => {
-			score = 0
+			score = 0;
 			changeGameState(setupGameScreen);
 		}
 	);
 }
 function setupMainMenu() {
 	gameState = 0;
-	console.log('pre instructions');
+	console.log("pre instructions");
 	spawnButton(
-		'Instructions',
+		"Instructions",
 		windowWidth / 2 - 250,
 		windowHeight / 2,
 		(button) => {
-			console.log('instuctions');
+			console.log("instuctions");
 			changeGameState(setupInstructionsScreen);
 		}
 	);
-	console.log('pre play game');
+	console.log("pre play game");
 	spawnButton(
-		'Play Game',
+		"Play Game",
 		windowWidth / 2 + 250,
 		windowHeight / 2,
 		(button) => {
-			console.log('playgame');
+			console.log("playgame");
 			changeGameState(setupGameScreen);
 		}
 	);
@@ -213,28 +225,38 @@ function setupInstructionsScreen() {
 	gameState = 1;
 	textAlign(CENTER);
 
-	spawnButton('Go Home', 100, 50, () => {
-		console.log('hi');
+	spawnButton("Go Home", 100, 50, () => {
+		console.log("hi");
 		changeGameState(setupMainMenu);
 	});
 
 	spawnFloor();
 
 	// Spawns bears along the screen.
-	for (let i = 0; i < windowWidth/40; i++) {
-		bear = new Sprite(40*i, 50, 20, 20)
+	for (let i = 0; i < windowWidth / 40; i++) {
+		bear = new Sprite(40 * i, 50, 20, 20);
 		bear.image = bearImage;
 		bear.image.scale = 0.4;
 	}
 }
 function setupGameScreen() {
 	gameState = 2;
-	spawnPlayer(windowWidth/2, windowHeight/2);
+	spawnPlayer(windowWidth / 2, windowHeight / 2);
 
-	spawnButton('Go Home', 100, 50, () => {
-		console.log('hi');
+	spawnButton("Go Home", 100, 50, () => {
+		console.log("hi");
 		changeGameState(setupMainMenu);
 	});
+
+	spawnButton(
+		"Instructions\n(Will reset game)",
+		windowWidth - 125,
+		50,
+		(button) => {
+			console.log("instuctions");
+			changeGameState(setupInstructionsScreen);
+		}
+	);
 
 	spawnFloor();
 }
@@ -242,13 +264,13 @@ function setupWinScreen() {
 	textAlign(CENTER);
 
 	gameState = 3;
-	console.log('pre play game');
+	console.log("pre play game");
 	spawnButton(
-		'Restart Game',
+		"Restart Game",
 		windowWidth / 2,
 		windowHeight / 2 + 100,
 		(button) => {
-			score = 0
+			score = 0;
 			changeGameState(setupGameScreen);
 		}
 	);
