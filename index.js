@@ -86,7 +86,6 @@ function playerMovement() {
 	value then when its released touching the 
 	floor add it to the velocity */
 	maxTimeHoldingSpace = 15; // max time to hold space
-	text(deltaTime, 500, 500);
 
 	if (kb.pressing("space")) {
 		if (timeHoldingSpace >= maxTimeHoldingSpace) {
@@ -100,8 +99,8 @@ function playerMovement() {
 		if (player.colliding(floor)) {
 			// the actual amount added to the velocity, this is multiplyed by deltaTime
 			// so that any framerate has the same effect. TODO make this actually use deltaTime.
-			jumpStregth = -timeHoldingSpace * 15;
-			player.vel.y = jumpStregth; /* * (1 / deltaTime); */
+			jumpStrength = -timeHoldingSpace;
+			player.vel.y = jumpStrength; /* * (1 / deltaTime); */
 		}
 
 		timeHoldingSpace = 0;

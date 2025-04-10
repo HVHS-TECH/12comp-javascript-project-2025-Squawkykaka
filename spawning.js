@@ -71,7 +71,6 @@ function spawnBear() {
 function spawnPlayer(x, y) {
 	player = new Sprite(x, y, 80, 90);
 	player.bounciness = 0;
-	player.debug = true;
 	player.img = bunnyImage;
 	player.img.scale = 0.4;
 	player.rotationLock = true;
