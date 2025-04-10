@@ -26,11 +26,11 @@ Things to do:
 ## Bugs (In order of importance)
 
 - [x] Bears dont spawn off screen.
-- [ ] Make coins collide only close to the player, not touching
-- [ ] fix softlock if player goes right
-- [ ] make button reset position each frame
+- [x] Make coins collide only close to the player, not touching
+- [x] fix softlock if player goes right
+- [?] make button reset position each frame
 - [x] Make bears die after 15 seconds
-- [ ] player can break game when resizing screens
+- [x] player can break game when resizing screens
 - [ ] bears spawn in clumps
 - [ ] fix background image causing exponential lag problem
 - [ ] make it so that jumping isnt framerate dependant

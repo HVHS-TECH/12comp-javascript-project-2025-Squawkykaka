@@ -16,7 +16,7 @@ function spawnButton(text, x, y, func) {
 
 	button.update = () => {
 		button.pos.x = x;
-		button.pos.y = y; 
+		button.pos.y = y;
 		if (button.mouse.pressing()) button.onClickFunction(button);
 	};
 
@@ -48,11 +48,19 @@ function spawnBerry(x, y, xVel) {
  * Spawns a bear, TODO make this more configurable
  */
 function spawnBear() {
-	bear = new Sprite(windowWidth + 50, windowHeight - 200, 120);
+	bear = new Sprite(windowWidth + 100, windowHeight - 200, 120);
 	bear.image = bearImage;
-	bear.life = 60 * 5;
 	bear.image.scale = 0.4;
-	bear.visible = false;
+	bear.vel.x = -10;
+
+	bear.life = 60 * 10;
+
+	bear.update = () => {
+		bear.vel.x = -10;
+		if (bear.x <= -200) {
+			bear.remove();
+		}
+	};
 }
 
 /**
@@ -63,11 +71,16 @@ function spawnBear() {
 function spawnPlayer(x, y) {
 	player = new Sprite(x, y, 80, 90);
 	player.bounciness = 0;
-	// player.debug = true
+	player.debug = true;
 	player.img = bunnyImage;
 	player.img.scale = 0.4;
 	player.rotationLock = true;
 	player.img.offset = { x: 0, y: -50 };
+
+	player.overlaps(berryGroup, (player, berry) => {
+		berry.remove();
+		score += 1;
+	});
 }
 /**
  * Creates the floor
