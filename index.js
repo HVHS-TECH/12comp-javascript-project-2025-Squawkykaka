@@ -1,6 +1,6 @@
 //  modifyable vartiables
 let bearAttack = false;
-let scoreGoal = 15;
+let scoreGoal = 5;
 let lives = 3;
 let gravity = 20;
 
