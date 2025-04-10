@@ -17,12 +17,16 @@ function preload() {
 	backgroundImage = loadImage("./assets/background.jpg");
 }
 function setup() {
+	frameRate(60);
+
 	const CANVAS = new Canvas(windowWidth, windowHeight);
 	world.gravity.y = gravity;
 
 	buttonGroup = new Group();
 	berryGroup = new Group();
 
+	// Fix things hitting buttons, cant make buttons
+	// have no colliders as otherwise they cant be clicked
 	buttonGroup.overlaps(allSprites);
 
 	setupMainMenu();
@@ -30,12 +34,18 @@ function setup() {
 function draw() {
 	gameManager();
 }
-function windowResized() {
-	resizeCanvas(windowWidth, windowHeight);
-}
+// Im going to temporarily remove this
+// to fix issues with players cheating
+// This code is now included in the changeGameState function TODO
+
+// function windowResized() {
+// 	resizeCanvas(windowWidth, windowHeight);
+// }
 
 // utility functions
 function gameManager() {
+	// This function runs the correct draw loop function
+	// depending on what the gameState variable is
 	switch (gameState) {
 		case 0:
 			mainMenuScreen();
@@ -68,12 +78,15 @@ function changeGameState(setupFunction) {
 	textSize(20);
 	allSprites.remove();
 	setupFunction();
+
+	resizeCanvas(windowWidth, windowHeight);
 }
 function playerMovement() {
 	/* make the player charge up a jumptimer 
 	value then when its released touching the 
 	floor add it to the velocity */
 	maxTimeHoldingSpace = 15; // max time to hold space
+	text(deltaTime, 500, 500);
 
 	if (kb.pressing("space")) {
 		if (timeHoldingSpace >= maxTimeHoldingSpace) {
@@ -85,8 +98,10 @@ function playerMovement() {
 	}
 	if (kb.released("space")) {
 		if (player.colliding(floor)) {
-			// the actual amount added to the velocity
-			player.vel.y = -timeHoldingSpace;
+			// the actual amount added to the velocity, this is multiplyed by deltaTime
+			// so that any framerate has the same effect. TODO make this actually use deltaTime.
+			jumpStregth = -timeHoldingSpace * 15;
+			player.vel.y = jumpStregth; /* * (1 / deltaTime); */
 		}
 
 		timeHoldingSpace = 0;
@@ -112,6 +127,7 @@ function gameScreen() {
 	// background(backgroundImage);
 	background(220);
 
+	// Spawn bears and berries at random intervals TODO: makw the berrys clump less
 	if (random(1, 500) <= 3) {
 		spawnBear();
 		bearAttack = true;
@@ -120,24 +136,12 @@ function gameScreen() {
 		spawnBerry(windowWidth, random(windowHeight), -10);
 	}
 
-	if (bearAttack) {
-		bear.visible = true;
-		bear.vel.x = -10;
-		if (bear.x <= -200) {
-			bear.remove();
-		}
-	}
 	playerMovement();
 
-	// berry scoring
-	berryGroup.forEach((berry) => {
-		if (berry.collides(player)) {
-			berry.remove();
-			score += 1;
-		}
-	});
-
-	if (player.x <= -10) {
+	// If the player is out of bounds, remove the player and
+	//  spawn them at the center of the screen, if they have no lives, end the game.
+	// TODO: make this function cleaner.
+	if (player.x <= -10 || player.x >= windowWidth + 10) {
 		if (lives <= 1) {
 			changeGameState(setupLoseScreen);
 		} else {
@@ -151,6 +155,7 @@ function gameScreen() {
 		changeGameState(setupWinScreen);
 	}
 
+	// Render the score and lives text at a different textsize
 	push();
 	textSize(20);
 	text(`Score: ${score}/${scoreGoal}\nLives: ${lives}`, 200, 45);
@@ -250,7 +255,7 @@ function setupGameScreen() {
 
 	spawnButton(
 		"Instructions\n(Will reset game)",
-		windowWidth - 125,
+		windowWidth - 150,
 		50,
 		(button) => {
 			console.log("instuctions");
