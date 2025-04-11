@@ -1,5 +1,4 @@
 //  modifyable vartiables
-let bearAttack = false;
 let scoreGoal = 5;
 let lives = 3;
 let gravity = 20;
@@ -14,7 +13,7 @@ function preload() {
 	berryImage = loadImage("./assets/berry.jpg");
 	bearImage = loadImage("./assets/bear.jpg");
 	bunnyImage = loadImage("./assets/bunny.jpg");
-	backgroundImage = loadImage("./assets/background.jpg");
+	backgroundImage = loadImage("./assets/background-modified.jpg");
 }
 function setup() {
 	frameRate(60);
@@ -123,13 +122,12 @@ function instructionsScreen() {
 	);
 }
 function gameScreen() {
-	// background(backgroundImage);
-	background(220);
+	background(backgroundImage);
+	// background(220);
 
 	// Spawn bears and berries at random intervals TODO: makw the berrys clump less
 	if (random(1, 500) <= 3) {
 		spawnBear();
-		bearAttack = true;
 	}
 	if (random(1, 500) <= 3) {
 		spawnBerry(windowWidth, random(windowHeight), -10);

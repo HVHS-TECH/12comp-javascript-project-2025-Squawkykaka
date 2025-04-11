@@ -12,7 +12,7 @@ Things to do:
 - [ ] save high score to database
 - [x] make it so when you fall off screen you die
 - [x] fix berry collider
-- [?] make background more interesting
+- [x] make background more interesting
 - [ ] change game to use 15 second timer and winning shows you the score over that 15 seconds
 - [ ] make game look prettier, eg add textures to the player
 - [ ] add a shop, spening blueberrys for upgrades / abilitys
@@ -32,7 +32,7 @@ Things to do:
 - [x] Make bears die after 15 seconds
 - [x] player can break game when resizing screens
 - [ ] bears spawn in clumps
-- [ ] fix background image causing exponential lag problem
+- [x] fix background image causing exponential lag problem
 - [ ] make it so that jumping isnt framerate dependant
 
 ## Dev Mode
